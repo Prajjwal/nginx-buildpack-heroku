@@ -87,6 +87,12 @@ View your website with:
 
     heroku open
 
+## Credits
+
+This build pack is basically stolen from [this](https://github.com/essh/heroku-buildpack-nginx),
+because the author stopped actively maintaining it. This pack is aims to be
+slightly better documented & to read the nginx binary url from a config var.
+
 ## TODO:
 
 * Add a script to build binaries.
