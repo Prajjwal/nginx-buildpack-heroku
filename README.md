@@ -68,9 +68,9 @@ called `$NGINX_BINARY_URL`. The build will fail if this isn't present. Set this 
 You can get away with using your Dropbox public folder to host this binary. I
 would recommend Amazon S3 for anything critical.
 
-I haven't yet added a script to compile this binary. You can use [this
-binary](https://github.com/ryandotsmith/nginx-buildpack/blob/master/bin/nginx),
-or compile your own with [this script](https://github.com/ryandotsmith/nginx-buildpack/blob/master/scripts/build_nginx.sh).
+You can use [this binary](https://github.com/ryandotsmith/nginx-buildpack/blob/master/bin/nginx).
+See the "Building Your Binary" section below for instructions on how to build
+your own binary.
 
 Create a Procfile to start the nginx server.
 
@@ -86,6 +86,32 @@ Now, simply commit your changes & push to heroku.
 View your website with:
 
     heroku open
+
+## Building Your Binary
+
+Start a shell session in a heroku app with:
+
+    heroku run bash
+
+Run the compile.sh script at scripts/:
+
+    curl https://raw.githubusercontent.com/Prajjwal/nginx-buildpack-heroku/master/scripts/compile.sh | bash
+
+This will compile an nginx binary and install it to `/tmp/nginx`. The script
+should start a python server to serve the contents of /tmp, but I have found
+that to be unreliable. Download the binary from there, or upload it to s3 or ftp
+or something using curl. Eg. to upload to an ftp server you could use:
+
+    curl -T /tmp/nginx/sbin/nginx ftp://ftp.example.com/ --user username:password
+
+The script also takes two optional parameters for the nginx & pcre versions. You
+can specify them as follows:
+
+    compile.sh <nginx_version> <pcre_version>
+
+Eg.
+
+    compile.sh 1.4.7 8.34
 
 ## Credits
 
