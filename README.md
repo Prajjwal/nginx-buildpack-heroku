@@ -17,7 +17,7 @@ Create directories for nginx configuration & your site.
 This build pack expects an nginx.conf.erb to be present at conf/. It must
 
 You must define all listen directives as listen `<%= ENV['PORT'] %>`. This ensures
-that the config always include the correct port that your server should be
+that the config always includes the correct port that your server should be
 listening on.
 
 Your config should also include `daemon off;`.
@@ -109,16 +109,15 @@ can specify them as follows:
 
     compile.sh <nginx_version> <pcre_version>
 
-Eg.
+Eg., to compile nginx 1.4.7 against pcre 8.23:
 
     compile.sh 1.4.7 8.34
 
 ## Credits
 
-This build pack is basically stolen from [this](https://github.com/essh/heroku-buildpack-nginx),
+This build pack is basically stolen from [here](https://github.com/essh/heroku-buildpack-nginx),
 because the author stopped actively maintaining it. This pack is aims to be
 slightly better documented & to read the nginx binary url from a config var.
 
-## TODO:
-
-* Add a script to build binaries.
+The script to build the nginx binary was forked from
+[here](https://github.com/ryandotsmith/nginx-buildpack/blob/master/scripts/build_nginx.sh).
