@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir>
+
+set -e
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+# Exit unless the NGINX_BINARY_URL config var is set
+[ -r $ENV_DIR/NGINX_BINARY_URL ] || exit 1
+
+# Get the url of the gzipped nginx binary
+NGINX_BINARY=`cat $ENV_DIR/NGINX_BINARY_URL`
+
+VENDORED_NGINX=$(mktemp -d -t nginx.XXXXXX)
+
+echo "-----> Fetching nginx binary"
+curl $NGINX_BINARY -s -o - | tar xzf - -C $VENDORED_NGINX
+
+echo "-----> Vendoring nginx"
+mkdir -p "$BUILD_DIR/bin"
+cp "$VENDORED_NGINX/nginx" "$BUILD_DIR/bin/nginx"
+
+# Build startup script at bin/start_nginx
+cat <<EOF >"$BUILD_DIR/bin/start_nginx"
+#!/usr/bin/env bash
+erb conf/nginx.conf.erb > conf/nginx.conf
+mkdir -p logs
+touch logs/access.log logs/error.log
+(tail -qF -n 0 --pid=\$\$ logs/*.log &)
+exec bin/nginx -p .
+EOF
+
+chmod +x "$BUILD_DIR/bin/start_nginx"
