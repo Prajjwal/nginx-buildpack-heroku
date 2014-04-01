@@ -89,29 +89,39 @@ View your website with:
 
 ## Building Your Binary
 
-Start a shell session in a heroku app with:
+This buildpack is in itself a heroku app that automatically compiles nginx and
+starts a little server that you can use to download it. You don't need to build
+your own binary unless you don't trust mine or need a different version of pcre
+or nginx. Here's how:
 
-    heroku run bash
+    git clone https://github.com/Prajjwal/nginx-buildpack-heroku.git
 
-Run the compile.sh script at scripts/:
+    cd nginx-buildpack-heroku
 
-    curl https://raw.githubusercontent.com/Prajjwal/nginx-buildpack-heroku/master/scripts/compile.sh | bash
+    heroku create
 
-This will compile an nginx binary and install it to `/tmp/nginx`. The script
-should start a python server to serve the contents of /tmp, but I have found
-that to be unreliable. Download the binary from there, or upload it to s3 or ftp
-or something using curl. Eg. to upload to an ftp server you could use:
+    git push heroku master
 
-    curl -T /tmp/nginx/sbin/nginx ftp://ftp.example.com/ --user username:password
+    heroku open
 
-The script also takes two optional parameters for the nginx & pcre versions. You
-can specify them as follows:
+This should open a web page that serves the `/tmp` dir of your heroku instance.
 
-    compile.sh <nginx_version> <pcre_version>
+Nginx has been installed to `/tmp/nginx`. There are also two gzipped tarballs.
+`heroku-nginx.tar.gz` is the one you should probably download. It contains the
+binary at the root, and should work out of the box with this buildpack.
 
-Eg., to compile nginx 1.4.7 against pcre 8.23:
+`heroku-nginx-full.tar.gz` contains the entire nginx install at `/tmp/nginx/`.
+This will not work out of the box with this buildpack because the nginx binary
+is in the `sbin/` dir within the archive, and not at the root where it is
+expected to be.
 
-    compile.sh 1.4.7 8.34
+## Hacking
+
+The build script also takes two optional parameters for the nginx & pcre versions.
+If you want a version of nginx or pcre other than the one that is hard coded
+into the script, simply fork this repository and change your Procfile to read:
+
+    web: scripts/compile.sh <nginx_version> <pcre_version>
 
 ## Credits
 
