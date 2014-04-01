@@ -68,7 +68,8 @@ called `$NGINX_BINARY_URL`. The build will fail if this isn't present. Set this 
 You can get away with using your Dropbox public folder to host this binary. I
 would recommend Amazon S3 for anything critical.
 
-You can use [this binary](https://github.com/ryandotsmith/nginx-buildpack/blob/master/bin/nginx).
+You can use [mine](https://mega.co.nz/#!3NMRCRpI!3Lg5rVufeVNYzg5XwnMU2Uq0SIHtigC6pqADqT4Otrc).
+
 See the "Building Your Binary" section below for instructions on how to build
 your own binary.
 
