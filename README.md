@@ -31,7 +31,6 @@ A sample nginx.conf.erb is as follows:
       worker_connections 1024;
     }
 
-
     http {
       include mime.types;
       default_type application/octet-stream;
