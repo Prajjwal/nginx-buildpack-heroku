@@ -65,9 +65,8 @@ tar cfa heroku-nginx-full.tar.gz nginx/ README.txt
 cd /tmp/nginx/sbin/
 tar cfa /tmp/heroku-nginx.tar.gz nginx ../conf/mime.types ../../README.txt
 
-# The app crashes for some reason the second the script is done, even if
-# compilation was successful. This is to ensure it continues running until
-# you've downloaded your heroku-nginx.tar.gz
+# Make sure the script does not exit, causing the app to crash before you get a
+# chance to download your heroku-nginx.tar.gz.
 while true; do
 	sleep 1
 done
