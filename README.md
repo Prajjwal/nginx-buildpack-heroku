@@ -14,7 +14,7 @@ Create directories for nginx configuration & your site.
     mkdir conf
     mkdir www
 
-This build pack expects an nginx.conf.erb to be present at conf/. It must
+This build pack expects an `nginx.conf.erb` to be present at `conf/`. It must
 
 You must define all listen directives as listen `<%= ENV['PORT'] %>`. This ensures
 that the config always includes the correct port that your server should be
@@ -22,7 +22,7 @@ listening on.
 
 Your config should also include `daemon off;`.
 
-A sample nginx.conf.erb is as follows:
+A sample `nginx.conf.erb` is as follows:
 
     worker_processes 1;
     daemon off;
@@ -53,7 +53,7 @@ A sample nginx.conf.erb is as follows:
 
     }
 
-The above will serve your site present at www/.
+The above will serve your site present at `www/`.
 
 Next, create a heroku app with:
 
@@ -64,10 +64,13 @@ called `$NGINX_BINARY_URL`. The build will fail if this isn't present. Set this 
 
     heroku config:set NGINX_BINARY_URL=http://example.com/nginx.tar.gz
 
+**NOTE:** It is always a good idea to point to a specific revision of the
+buildpack. Details [here](https://devcenter.heroku.com/articles/buildpacks#using-a-custom-buildpack).
+
 You can get away with using your Dropbox public folder to host this binary. I
 would recommend Amazon S3 for anything critical.
 
-You can use [mine](https://mega.co.nz/#!3NMRCRpI!3Lg5rVufeVNYzg5XwnMU2Uq0SIHtigC6pqADqT4Otrc).
+You can use [mine](https://mega.nz/#!LcMyQQ7L!BsTneKZl7NuAoGOir_WbeTptf7xC-jrRapw8PIJiiW8) `(v1.9.3)`.
 
 See the "Building Your Binary" section below for instructions on how to build
 your own binary.
@@ -122,6 +125,22 @@ If you want a version of nginx or pcre other than the one that is hard coded
 into the script, simply fork this repository and change your Procfile to read:
 
     web: scripts/compile.sh <nginx_version> <pcre_version>
+
+## Troubleshooting
+
+Older applications using the `cedar-10` stack might run into problems upgrading
+to new versions of nginx. `nginx` built on the `cedar-14` stack will fail as
+follows if you try to run it.
+
+    ~ $ ./nginx
+    ./nginx: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
+
+To find out what stack you're on, run `heroku stack`. Change the stack to
+`cedar-14` with:
+
+    ~ heroku stack:set cedar-14
+    Stack set. Next release on ututs will use cedar-14.
+    Run `git push heroku master` to create a new release on cedar-14.
 
 ## Credits
 
