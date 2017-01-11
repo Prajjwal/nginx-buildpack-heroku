@@ -23,15 +23,15 @@
 #
 # Check the "Building your binary" section in the README for more information.
 
-NGINX_VERSION=1.9.3
-PCRE_VERSION=8.37
+NGINX_VERSION=1.11.8
+PCRE_VERSION=8.39
 
 # Set custom NGINX_VERSION & PCRE_VERSION if passed in as parameters.
 [ -z $1 ] || NGINX_VERSION=$1
 [ -z $2 ] || PCRE_VERSION=$2
 
 nginx_tarball_url=http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz
-pcre_tarball_url=http://garr.dl.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.bz2
+pcre_tarball_url=http://sourceforge.net/projects/pcre/files/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.bz2/download
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
