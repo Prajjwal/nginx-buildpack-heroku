@@ -70,7 +70,8 @@ buildpack. Details [here](https://devcenter.heroku.com/articles/buildpacks#using
 You can get away with using your Dropbox public folder to host this binary. I
 would recommend Amazon S3 for anything critical.
 
-You can use [mine](https://mega.nz/#!LcMyQQ7L!BsTneKZl7NuAoGOir_WbeTptf7xC-jrRapw8PIJiiW8) `(v1.9.3)`.
+You can use
+[mine](https://www.dropbox.com/sh/mu5zf92216rflnn/AADtak5O73yULWBaoZui9J3Ca?dl=0).
 
 See the "Building Your Binary" section below for instructions on how to build
 your own binary.
