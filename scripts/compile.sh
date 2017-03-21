@@ -35,10 +35,6 @@ pcre_tarball_url=http://sourceforge.net/projects/pcre/files/pcre/${PCRE_VERSION}
 
 temp_dir=$(mktemp -d /tmp/nginx.XXXXXXXXXX)
 
-# Start serving the contents of /tmp on $PORT, so you can download your binary
-# once compilation is done.
-ruby -run -e httpd /tmp -p $PORT &
-
 cd $temp_dir
 echo "Temp dir: $temp_dir"
 
@@ -56,6 +52,13 @@ echo "Downloading $pcre_tarball_url"
 		--prefix=/tmp/nginx
 	make install
 )
+
+# Start serving the contents of /tmp with the nginx binary itself, to make sure
+# it works.
+erb ~/conf/nginx.conf.erb > /tmp/nginx/conf/nginx.conf
+mkdir -p /tmp/logs
+touch /tmp/logs/access.log /tmp/logs/error.log
+/tmp/nginx/sbin/nginx &
 
 # Create compressed tarballs to make downloading easy.
 cd /tmp
